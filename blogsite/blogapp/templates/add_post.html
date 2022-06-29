@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+        <h1 class="heading">Add Post</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    {% if user.username == "geetha" %}
+
+                        <form method = "POST">
+                            {% csrf_token %}
+                            {{form.as_p}}
+                            <button class="btn btn-secondary">AddPost</button>
+                        </form>
+                    {% else %} 
+                        <p>You are not allowed to add the post.</p>
+                        <a href="{% url 'home' %}"><button class = "btn btn-primary">Back</button></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+{% endblock %}

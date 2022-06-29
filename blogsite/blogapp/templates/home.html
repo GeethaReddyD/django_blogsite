@@ -1,0 +1,20 @@
+{% extends 'base.html' %} 
+{% block title %}Blog{% endblock %}
+{% block content %}
+<div class="d-flex flex-column justify-content-center">
+
+    <h1 class ="heading">Blog Posts</h1>
+
+    {% for post in object_list %}
+        <div class="home-page p-3">
+            <p><a href="{% url 'read_detail' post.pk %}">{{post.title}}</a> -<small>{{post.author}}</small>
+            {% if user.is_authenticated %}
+                <a href = "{% url 'update_post' post.pk %}"><button type="button" class="btn btn-outline-primary">Edit</button></a>
+                <a href = "{% url 'delete_post' post.pk %}"><button type="button" class="btn btn-outline-danger">Delete</button></a>
+            </p>
+            {% endif %} 
+            <p>{{post.body|safe}}</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

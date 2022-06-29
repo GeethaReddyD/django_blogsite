@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div>
+    <h1 class ="heading">{{post.title}}</h1>
+    <strong>By : {{post.author}}</strong>
+    <hr>
+    <p>{{post.body}}</p>
+    <a href="{% url 'home' %}" class="btn btn-primary">Back</a>
+</div>
+<br/><hr>
+{% if not post.comments.all %} 
+    No Comments Yet.. <a href="{% url 'add_comment' post.pk %}">Add One</a>
+{% else %} 
+<a href ="{% url 'add_comment' post.pk %}">Add Comment</a> 
+<br/><br/>
+    {% for comment in post.comments.all %} 
+        <strong>{{comment.name}} {{comment.date_added}}</strong>
+        <p>{{comment.body}}</p>
+    {% endfor %} 
+{% endif %}
+{% endblock %}

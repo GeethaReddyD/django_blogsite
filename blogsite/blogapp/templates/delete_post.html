@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h1 class="heading mb-3">Delete Post</h1><hr>
+    {% if user.username == post.author.username %}
+        <p>{{post.title}}</p>
+
+            <form method = "POST">
+                {% csrf_token %}
+
+                <button class="btn btn-danger">DeletePost</button>
+            
+            </form>
+    {% else %} 
+        <p>You are not allowed to delete the post.</p>
+    {% endif %}
+{% endblock %}
