@@ -1,17 +1,18 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
 from django.urls import reverse_lazy 
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from .models import Post,Comment,Subscriber 
 from .forms import CommentForm,PostForm,EditForm,SubscribeForm
 from django.urls import reverse_lazy,reverse
 from django.core.mail  import send_mail
+from .tasks import test
 
 
 # Create your views here.
 # To fetch all the posts from Posts table
 class HomeView(ListView):
     model = Post 
-    template_name = 'home.html' 
+    template_name = 'home.html'
 
 # To fetch single post using primary key
 class ReadView(DetailView):
@@ -25,10 +26,13 @@ class AddPostView(CreateView):
     form_class = PostForm
     
     template_name = 'add_post.html' 
-    success_url = reverse_lazy('email')
+    success_url = reverse_lazy('demo')
+    
+
     
     # To get the current author for the post
     def form_valid(self,form):
+    
         form.instance.author = self.request.user
         
         return super().form_valid(form)
@@ -63,19 +67,11 @@ class AddCommentView(CreateView):
 class SubscriberView(CreateView):
         model = Subscriber 
         form_class = SubscribeForm 
-        template_name = "subscriber.html"
+        template_name = "subscriber.html" 
 
-# To send email to the subscribers when new post is added
-def emails():
-    try:
-        list = Subscriber.objects.all()
-        for element in list:
-            send_mail('New Post','Thankyou.New post has added.Please check it',"flasksample123@gmail.com",
-            [element.email])
-    
-        return redirect('home')
-    except:
-        return ("Someting went wrong.The email is not sent to the subscriber")
+def new_func(request):
+    test.delay() 
+    return redirect('home')
 
 
 

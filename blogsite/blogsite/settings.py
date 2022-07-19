@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blogapp',
-    'members',
+    'django_celery_results',
+    'members'
+
 ]
 
 MIDDLEWARE = [
@@ -130,11 +132,21 @@ STATICFILES_URL = (BASE_DIR /"static")
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home' 
 
-#email Configuration
+#celery configuration 
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json' 
+CELERY_TASK_SERIALIZER = 'json' 
+CELERY_TIMEZONE = 'utc'  
 
+CELERY_RESULT_BACKEND = 'django-db'
+
+#email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587 
-EMAIL_HOST_USER = "flasksample123@gmail.com"
-EMAIL_HOST_PASSWORD = "kpsupjqwrkbcytxl"
+EMAIL_HOST_USER = 'flasksample123@gmail.com'
+EMAIL_HOST_PASSWORD = 'kpsupjqwrkbcytxl'
 EMAIL_USE_TLS = True
+
 
